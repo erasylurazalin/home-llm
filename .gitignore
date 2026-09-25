@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+bench/logs/
+# Coding-agent benchmark: unfinished, no results yet, and it bundles a copy of a team repo.
+bench/agentic/

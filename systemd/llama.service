@@ -1,0 +1,27 @@
+[Unit]
+Description=llama.cpp server (Qwen3.8-27B)
+After=network.target
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/llama-server \
+  -m %h/models/Qwen3.8-27B-Q5_K_M.gguf \
+  -ngl 17 \
+  -c 65536 \
+  -np 1 \
+  -t 12 \
+  --jinja \
+  --chat-template-file %h/models/qwen38-patched.jinja \
+  --reasoning-effort xhigh \
+  -fa on \
+  -ctk q8_0 \
+  -ctv q8_0 \
+  --spec-type draft-mtp \
+  --host 127.0.0.1 \
+  --port 8080
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=600
+
+[Install]
+WantedBy=default.target

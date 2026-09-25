@@ -1,0 +1,47 @@
+effort=low wall=99.0s finish=stop
+prompt: 98 tok at 18.1 tok/s
+gen:    603 tok at 6.43 tok/s
+draft:  412/579 accepted
+--- reasoning (first 300 chars) ---
+Let me work through this step by step.
+
+1. The farmer starts with 17 sheep.
+2. "All but 9 run away" — this means 9 sheep remain (not that 9 run away). So he has 9 sheep left.
+3. "He buys twice as many as he has left" — he buys 2 × 9 = 18 sheep. Now he has 9 + 18 = 27 sheep.
+4. "Sells a third of the 
+--- answer ---
+## Step-by-step
+
+1. **Starts with 17 sheep.**
+2. **All but 9 run away** → 9 remain.
+3. **Buys twice as many as he has left** → buys 2 × 9 = 18, giving 9 + 18 = **27**.
+4. **Sells a third of the total** → sells 27 ÷ 3 = 9, leaving 27 − 9 = **18**.
+
+**Answer: 18 sheep.**
+
+## Python
+
+```python
+def sheep_count(initial, remaining_after_runaway, buy_multiplier=2, sell_fraction=1/3):
+    """
+    General version of the sheep problem.
+
+    Parameters:
+        initial              – starting number of sheep
+        remaining_after_runaway – how many are left after "all but N run away"
+        buy_multiplier       – buys this many times the current count (default 2)
+        sell_fraction        – fraction of the new total sold (default 1/3)
+
+    Returns:
+        Final number of sheep.
+    """
+    count = remaining_after_runaway
+    count = count * (1 + buy_multiplier)   # buys 'multiplier' extra
+    count = count * (1 - sell_fraction)     # sells 'fraction' of the total
+    return int(count)
+
+
+print(sheep_count(17, 9))  # → 18
+```
+
+> **Note:** The `initial` parameter isn't used in the arithmetic (the runaway step discards it), but it's kept for completeness and readability of the problem statement. If you want it to matter (e.g., "all but N *of the initial* run away"), you could assert `remaining_after_runaway <= initial`.

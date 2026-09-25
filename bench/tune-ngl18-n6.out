@@ -1,0 +1,58 @@
+effort=low wall=119.5s finish=stop
+prompt: 98 tok at 17.2 tok/s
+gen:    645 tok at 5.66 tok/s
+draft:  495/900 accepted
+--- reasoning (first 300 chars) ---
+Let me work through this step by step.
+
+1. A farmer has 17 sheep.
+2. All but 9 run away → 9 sheep remain.
+3. He buys twice as many as he has left → he buys 2 × 9 = 18 sheep. Now he has 9 + 18 = 27 sheep.
+4. He sells a third of the total → sells 27 / 3 = 9 sheep. Now he has 27 - 9 = 18 sheep.
+
+So the
+--- answer ---
+## Step-by-Step
+
+| Step | Operation | Result |
+|------|-----------|--------|
+| Start | 17 sheep | 17 |
+| All but 9 run away | 9 remain | 9 |
+| Buys twice as many as he has left | 9 + 2×9 = 27 | 27 |
+| Sells a third of the total | 27 − 9 = 18 | **18** |
+
+**He has 18 sheep.**
+
+## Python Function
+
+```python
+def solve_sheep(initial: int, remaining: int, buy_multiplier: int, sell_fraction: float) -> int:
+    """
+    General version of the sheep problem.
+
+    Parameters:
+        initial        – starting number of sheep
+        remaining      – how many remain after "all but X run away"
+        buy_multiplier – he buys this many times what he has left
+        sell_fraction  – the fraction of the total he sells (e.g. 1/3)
+
+    Returns:
+        Final number of sheep.
+    """
+    # "All but `remaining` run away"
+    sheep = remaining
+
+    # Buys `buy_multiplier` times what he has left
+    sheep += buy_multiplier * sheep
+
+    # Sells `sell_fraction` of the total
+    sheep -= int(sheep * sell_fraction)
+
+    return sheep
+
+
+# Verify with the original problem
+print(solve_sheep(initial=17, remaining=9, buy_multiplier=2, sell_fraction=1/3))  # 18
+```
+
+**Note:** `initial` doesn't actually affect the result (the run-away step resets the count to `remaining`), but it's included for clarity and to match the problem's narrative. If you wanted the run-away to be expressed as "a fraction run away" instead, you could swap `remaining` for a `run_away_fraction` parameter.

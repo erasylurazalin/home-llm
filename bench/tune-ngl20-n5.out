@@ -1,0 +1,53 @@
+effort=low wall=147.4s finish=stop
+prompt: 98 tok at 17.8 tok/s
+gen:    939 tok at 6.61 tok/s
+draft:  709/1160 accepted
+--- reasoning (first 300 chars) ---
+Let me work through this step by step.
+
+1. A farmer has 17 sheep.
+2. All but 9 run away → he has 9 left.
+3. He buys twice as many as he has left → he buys 2 × 9 = 18, so now he has 9 + 18 = 27.
+4. He sells a third of the total → he sells 27 / 3 = 9, so he has 27 - 9 = 18 left.
+
+So the answer is 18.
+
+--- answer ---
+## Working Through the Problem
+
+| Step | Action | Count |
+|------|--------|-------|
+| Start | Farmer has sheep | 17 |
+| 1 | All but 9 run away | 9 |
+| 2 | Buys twice as many as he has left (2 × 9 = 18) | 9 + 18 = **27** |
+| 3 | Sells a third of the total (27 ÷ 3 = 9) | 27 − 9 = **18** |
+
+**He has 18 sheep.**
+
+## Python Function
+
+```python
+def sheep_problem(initial, survivors, buy_multiplier, sell_fraction):
+    """
+    General version of the sheep problem.
+
+    Args:
+        initial:          starting number of sheep
+        survivors:        how many sheep remain after the runaway
+        buy_multiplier:   he buys this many times the survivors (e.g. 2 for "twice")
+        sell_fraction:    fraction of the total he sells (e.g. 1/3 for "a third")
+
+    Returns:
+        final number of sheep
+    """
+    left = survivors
+    total_after_buy = left + buy_multiplier * left
+    return total_after_buy * (1 - sell_fraction)
+
+
+# Verify with the original problem
+result = sheep_problem(17, 9, 2, 1/3)
+print(result)  # 18
+```
+
+> **Note:** The `initial` parameter is included for completeness of the scenario description, but mathematically the answer depends only on `survivors`, `buy_multiplier`, and `sell_fraction` — the starting count is fully determined by how many run away.
