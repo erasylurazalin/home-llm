@@ -67,9 +67,13 @@ The KV cache is q8_0, which halves its memory against f16.
 ## Running it
 
 `systemd/llama.service` is the unit I run. It is the tuned config at 64k
-context, which costs one GPU layer (17 instead of 18). It points at a chat
-template I patched locally, which isn't in this repo; drop that line to use the
-model's own template.
+context, which costs one GPU layer (17 instead of 18).
+
+It also points at a patched copy of the model's chat template, which isn't in
+this repo. I drive the model through Claude Code, which sends system messages
+in the middle of a conversation, and the stock Qwen template refuses any
+system message that isn't first. The patch renders those as ordinary system
+blocks instead. Drop the `--chat-template-file` line to use the stock template.
 
 ```
 cp systemd/llama.service ~/.config/systemd/user/
